@@ -1,0 +1,28 @@
+{
+  "name": "@senran/eslint-config-monorepo",
+  "version": "1.0.0",
+  "license": "MIT",
+  "packageManager": "pnpm@8.1.1",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "pnpm -r run test",
+    "prepare": "pnpm -r run stub",
+    "release": "bumpp -r"
+  },
+  "devDependencies": {
+    "@senran/eslint-config": "workspace:*",
+    "bumpp": "^9.1.0",
+    "eslint": "^8.37.0",
+    "eslint-plugin-senran": "link:./packages/eslint-plugin-senran",
+    "rimraf": "^4.4.1",
+    "typescript": "^5.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SenRanYo/eslint-config.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SenRanYo/eslint-config/issues"
+  },
+  "homepage": "https://github.com/SenRanYo/eslint-config#readme"
+}

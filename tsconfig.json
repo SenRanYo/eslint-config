@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "target": "es2020",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "./packages/**/*.ts"
+  ],
+  "exclude": [
+    "./fixtures/**/*.*"
+  ]
+}
