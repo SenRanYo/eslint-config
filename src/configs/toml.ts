@@ -12,7 +12,7 @@ export async function toml(options: OptionsOverrides & OptionsStylistic & Option
 
   return [
     {
-      name: 'kirklin/toml/setup',
+      name: 'senran/toml/setup',
       plugins: {
         toml: pluginToml,
       },
@@ -22,7 +22,7 @@ export async function toml(options: OptionsOverrides & OptionsStylistic & Option
       languageOptions: {
         parser: parserToml,
       },
-      name: 'kirklin/toml/rules',
+      name: 'senran/toml/rules',
       rules: {
         'style/spaced-comment': 'off',
 

@@ -1,9 +1,8 @@
 import type { OptionsComponentExts, OptionsFiles, OptionsOverrides, OptionsProjectType, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from '../types';
 
 import process from 'node:process';
-import { GLOB_ASTRO_TS, GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from '../globs';
-import { pluginKirkLin } from '../plugin';
 import { interopDefault, renameRules } from '../utils';
+import { GLOB_ASTRO_TS, GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from '../globs';
 
 export async function typescript(
   options: OptionsFiles & OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions & OptionsProjectType = {}
@@ -64,16 +63,15 @@ export async function typescript(
           ...(parserOptions as any),
         },
       },
-      name: `kirklin/typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
+      name: `senran/typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
     };
   }
 
   return [
     {
       // Install the plugins without globs, so they can be configured separately.
-      name: 'kirklin/typescript/setup',
+      name: 'senran/typescript/setup',
       plugins: {
-        kirklin: pluginKirkLin,
         ts: pluginTs as any,
       },
     },
@@ -81,7 +79,7 @@ export async function typescript(
     ...(isTypeAware ? [makeParser(false, files), makeParser(true, filesTypeAware, ignoresTypeAware)] : [makeParser(false, files)]),
     {
       files,
-      name: 'kirklin/typescript/rules',
+      name: 'senran/typescript/rules',
       rules: {
         ...renameRules(pluginTs.configs['eslint-recommended'].overrides![0].rules!, { '@typescript-eslint': 'ts' }),
         ...renameRules(pluginTs.configs.strict.rules!, { '@typescript-eslint': 'ts' }),
@@ -146,7 +144,7 @@ export async function typescript(
           {
             files: filesTypeAware,
             ignores: ignoresTypeAware,
-            name: 'kirklin/typescript/rules-type-aware',
+            name: 'senran/typescript/rules-type-aware',
             rules: {
               ...typeAwareRules,
               ...overridesTypeAware,

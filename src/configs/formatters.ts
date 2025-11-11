@@ -79,7 +79,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
 
   const configs: TypedFlatConfigItem[] = [
     {
-      name: 'kirklin/formatter/setup',
+      name: 'senran/formatter/setup',
       plugins: {
         format: pluginFormat,
       },
@@ -93,7 +93,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
         languageOptions: {
           parser: parserPlain,
         },
-        name: 'kirklin/formatter/css',
+        name: 'senran/formatter/css',
         rules: {
           'format/prettier': [
             'error',
@@ -108,7 +108,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
         languageOptions: {
           parser: parserPlain,
         },
-        name: 'kirklin/formatter/scss',
+        name: 'senran/formatter/scss',
         rules: {
           'format/prettier': [
             'error',
@@ -123,7 +123,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
         languageOptions: {
           parser: parserPlain,
         },
-        name: 'kirklin/formatter/less',
+        name: 'senran/formatter/less',
         rules: {
           'format/prettier': [
             'error',
@@ -142,7 +142,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
       languageOptions: {
         parser: parserPlain,
       },
-      name: 'kirklin/formatter/html',
+      name: 'senran/formatter/html',
       rules: {
         'format/prettier': [
           'error',
@@ -160,7 +160,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
       languageOptions: {
         parser: parserPlain,
       },
-      name: 'kirklin/formatter/xml',
+      name: 'senran/formatter/xml',
       rules: {
         'format/prettier': [
           'error',
@@ -181,7 +181,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
       languageOptions: {
         parser: parserPlain,
       },
-      name: 'kirklin/formatter/svg',
+      name: 'senran/formatter/svg',
       rules: {
         'format/prettier': [
           'error',
@@ -208,7 +208,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
       languageOptions: {
         parser: parserPlain,
       },
-      name: 'kirklin/formatter/markdown',
+      name: 'senran/formatter/markdown',
       rules: {
         [`format/${formater}`]: [
           'error',
@@ -231,7 +231,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
         languageOptions: {
           parser: parserPlain,
         },
-        name: 'kirklin/formatter/slidev',
+        name: 'senran/formatter/slidev',
         rules: {
           'format/prettier': [
             'error',
@@ -252,7 +252,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
       languageOptions: {
         parser: parserPlain,
       },
-      name: 'kirklin/formatter/astro',
+      name: 'senran/formatter/astro',
       rules: {
         'format/prettier': [
           'error',
@@ -266,7 +266,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
 
     configs.push({
       files: [GLOB_ASTRO, GLOB_ASTRO_TS],
-      name: 'kirklin/formatter/astro/disables',
+      name: 'senran/formatter/astro/disables',
       rules: {
         'style/arrow-parens': 'off',
         'style/block-spacing': 'off',
@@ -285,7 +285,7 @@ export async function formatters(options: OptionsFormatters | true = {}, stylist
       languageOptions: {
         parser: parserPlain,
       },
-      name: 'kirklin/formatter/graphql',
+      name: 'senran/formatter/graphql',
       rules: {
         'format/prettier': [
           'error',

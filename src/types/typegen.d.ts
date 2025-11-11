@@ -1182,56 +1182,6 @@ export interface RuleOptions {
    */
   'keyword-spacing'?: Linter.RuleEntry<KeywordSpacing>
   /**
-   * Having line breaks styles to object, array and named imports
-   * @see https://github.com/kirklin/eslint-plugin-kirklin/blob/main/src/rules/consistent-chaining.md
-   */
-  'kirklin/consistent-chaining'?: Linter.RuleEntry<KirklinConsistentChaining>
-  /**
-   * Having line breaks styles to object, array and named imports
-   * @see https://github.com/kirklin/eslint-plugin-kirklin/blob/main/src/rules/consistent-list-newline.md
-   */
-  'kirklin/consistent-list-newline'?: Linter.RuleEntry<KirklinConsistentListNewline>
-  /**
-   * Newline after if
-   * @see https://github.com/kirklin/eslint-plugin-kirklin/blob/main/src/rules/if-newline.md
-   */
-  'kirklin/if-newline'?: Linter.RuleEntry<[]>
-  /**
-   * Fix duplication in imports
-   * @see https://github.com/kirklin/eslint-plugin-kirklin/blob/main/src/rules/import-dedupe.md
-   */
-  'kirklin/import-dedupe'?: Linter.RuleEntry<[]>
-  /**
-   * Enforce consistent indentation in `unindent` template tag
-   * @see https://github.com/kirklin/eslint-plugin-kirklin/blob/main/src/rules/indent-unindent.md
-   */
-  'kirklin/indent-unindent'?: Linter.RuleEntry<KirklinIndentUnindent>
-  /**
-   * Prevent importing modules in `dist` folder
-   * @see https://github.com/kirklin/eslint-plugin-kirklin/blob/main/src/rules/no-import-dist.test.ts
-   */
-  'kirklin/no-import-dist'?: Linter.RuleEntry<[]>
-  /**
-   * Prevent importing modules in `node_modules` folder by relative or absolute path
-   * @see https://github.com/kirklin/eslint-plugin-kirklin/blob/main/src/rules/no-import-node-modules-by-path.test.ts
-   */
-  'kirklin/no-import-node-modules-by-path'?: Linter.RuleEntry<[]>
-  /**
-   * Prevent using top-level await
-   * @see https://github.com/kirklin/eslint-plugin-kirklin/blob/main/src/rules/no-top-level-await.test.ts
-   */
-  'kirklin/no-top-level-await'?: Linter.RuleEntry<[]>
-  /**
-   * Do not use `exports =`
-   * @see https://github.com/kirklin/eslint-plugin-kirklin/blob/main/src/rules/no-ts-export-equal.test.ts
-   */
-  'kirklin/no-ts-export-equal'?: Linter.RuleEntry<[]>
-  /**
-   * Enforce top-level functions to be declared with function keyword
-   * @see https://github.com/kirklin/eslint-plugin-kirklin/blob/main/src/rules/top-level-function.md
-   */
-  'kirklin/top-level-function'?: Linter.RuleEntry<[]>
-  /**
    * Enforce position of line comments
    * @see https://eslint.org/docs/latest/rules/line-comment-position
    * @deprecated
@@ -10157,39 +10107,6 @@ type KeywordSpacing = []|[{
       after?: boolean
     }
   }
-}]
-// ----- kirklin/consistent-chaining -----
-type KirklinConsistentChaining = []|[{
-  
-  allowLeadingPropertyAccess?: boolean
-}]
-// ----- kirklin/consistent-list-newline -----
-type KirklinConsistentListNewline = []|[{
-  ArrayExpression?: boolean
-  ArrayPattern?: boolean
-  ArrowFunctionExpression?: boolean
-  CallExpression?: boolean
-  ExportNamedDeclaration?: boolean
-  FunctionDeclaration?: boolean
-  FunctionExpression?: boolean
-  ImportDeclaration?: boolean
-  JSONArrayExpression?: boolean
-  JSONObjectExpression?: boolean
-  JSXOpeningElement?: boolean
-  NewExpression?: boolean
-  ObjectExpression?: boolean
-  ObjectPattern?: boolean
-  TSFunctionType?: boolean
-  TSInterfaceDeclaration?: boolean
-  TSTupleType?: boolean
-  TSTypeLiteral?: boolean
-  TSTypeParameterDeclaration?: boolean
-  TSTypeParameterInstantiation?: boolean
-}]
-// ----- kirklin/indent-unindent -----
-type KirklinIndentUnindent = []|[{
-  indent?: number
-  tags?: string[]
 }]
 // ----- line-comment-position -----
 type LineCommentPosition = []|[(("above" | "beside") | {
@@ -19197,5 +19114,4 @@ type Yoda = []|[("always" | "never")]|[("always" | "never"), {
   exceptRange?: boolean
   onlyEquality?: boolean
 }]
-// Names of all the configs
-export type ConfigNames = 'senran/eslint-comments/rules' | 'kirklin/formatter/setup' | 'senran/imports/rules' | 'kirklin/javascript/setup' | 'kirklin/javascript/rules' | 'kirklin/jsx/setup' | 'kirklin/jsdoc/rules' | 'kirklin/jsonc/setup' | 'kirklin/jsonc/rules' | 'kirklin/markdown/setup' | 'kirklin/markdown/processor' | 'kirklin/markdown/parser' | 'kirklin/markdown/disables' | 'kirklin/node/rules' | 'kirklin/perfectionist/setup' | 'kirklin/nextjs/setup' | 'kirklin/nextjs/rules' | 'kirklin/react/setup' | 'kirklin/react/rules' | 'kirklin/solid/setup' | 'kirklin/solid/rules' | 'kirklin/sort/package-json' | 'kirklin/stylistic/rules' | 'kirklin/svelte/setup' | 'kirklin/svelte/rules' | 'kirklin/test/setup' | 'kirklin/test/rules' | 'kirklin/toml/setup' | 'kirklin/toml/rules' | 'kirklin/regexp/rules' | 'kirklin/typescript/setup' | 'kirklin/typescript/parser' | 'kirklin/typescript/rules' | 'kirklin/unicorn/rules' | 'kirklin/unocss' | 'kirklin/vue/setup' | 'kirklin/vue/rules' | 'kirklin/yaml/setup' | 'kirklin/yaml/rules' | 'kirklin/yaml/pnpm-workspace'
+export type ConfigNames = 'senran/eslint-comments/rules' | 'senran/formatter/setup' | 'senran/imports/rules' | 'senran/javascript/setup' | 'senran/javascript/rules' | 'senran/jsx/setup' | 'senran/jsdoc/rules' | 'senran/jsonc/setup' | 'senran/jsonc/rules' | 'senran/markdown/setup' | 'senran/markdown/processor' | 'senran/markdown/parser' | 'senran/markdown/disables' | 'senran/node/rules' | 'senran/perfectionist/setup' | 'senran/nextjs/setup' | 'senran/nextjs/rules' | 'senran/react/setup' | 'senran/react/rules' | 'senran/solid/setup' | 'senran/solid/rules' | 'senran/sort/package-json' | 'senran/stylistic/rules' | 'senran/svelte/setup' | 'senran/svelte/rules' | 'senran/test/setup' | 'senran/test/rules' | 'senran/toml/setup' | 'senran/toml/rules' | 'senran/regexp/rules' | 'senran/typescript/setup' | 'senran/typescript/parser' | 'senran/typescript/rules' | 'senran/unicorn/rules' | 'senran/unocss' | 'senran/vue/setup' | 'senran/vue/rules' | 'senran/yaml/setup' | 'senran/yaml/rules' | 'senran/yaml/pnpm-workspace'

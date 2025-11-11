@@ -5,7 +5,7 @@ import { pluginNode } from '../plugin';
 export async function node(): Promise<TypedFlatConfigItem[]> {
   return [
     {
-      name: 'kirklin/node/rules',
+      name: 'senran/node/rules',
       plugins: {
         node: pluginNode,
       },

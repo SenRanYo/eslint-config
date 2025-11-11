@@ -12,7 +12,7 @@ export async function yaml(options: OptionsOverrides & OptionsStylistic & Option
 
   return [
     {
-      name: 'kirklin/yaml/setup',
+      name: 'senran/yaml/setup',
       plugins: {
         yaml: pluginYaml,
       },
@@ -22,7 +22,7 @@ export async function yaml(options: OptionsOverrides & OptionsStylistic & Option
       languageOptions: {
         parser: parserYaml,
       },
-      name: 'kirklin/yaml/rules',
+      name: 'senran/yaml/rules',
       rules: {
         'style/spaced-comment': 'off',
 
@@ -56,7 +56,7 @@ export async function yaml(options: OptionsOverrides & OptionsStylistic & Option
     },
     {
       files: ['pnpm-workspace.yaml'],
-      name: 'kirklin/yaml/pnpm-workspace',
+      name: 'senran/yaml/pnpm-workspace',
       rules: {
         'yaml/sort-keys': [
           'error',

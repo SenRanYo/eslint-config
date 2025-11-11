@@ -1,5 +1,5 @@
 import type { OptionsOverrides, OptionsStylistic, TypedFlatConfigItem } from '../types';
-import { pluginImportLite, pluginKirkLin } from '../plugin';
+import { pluginImportLite } from '../plugin';
 
 export async function imports(options: OptionsOverrides & OptionsStylistic = {}): Promise<TypedFlatConfigItem[]> {
   const { overrides = {}, stylistic = true } = options;
@@ -9,7 +9,6 @@ export async function imports(options: OptionsOverrides & OptionsStylistic = {})
       name: 'senran/imports/rules',
       plugins: {
         import: pluginImportLite,
-        kirklin: pluginKirkLin,
       },
       rules: {
         'import/consistent-type-specifier-style': ['error', 'top-level'],
@@ -18,9 +17,6 @@ export async function imports(options: OptionsOverrides & OptionsStylistic = {})
 
         'import/no-mutable-exports': 'error',
         'import/no-named-default': 'error',
-        'kirklin/import-dedupe': 'error',
-        'kirklin/no-import-dist': 'error',
-        'kirklin/no-import-node-modules-by-path': 'error',
 
         ...(stylistic
           ? {

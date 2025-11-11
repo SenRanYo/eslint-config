@@ -44,7 +44,7 @@ export async function vue(options: OptionsVue & OptionsHasTypeScript & OptionsOv
           watchEffect: 'readonly',
         },
       },
-      name: 'kirklin/vue/setup',
+      name: 'senran/vue/setup',
       plugins: {
         vue: pluginVue,
         ...(a11y ? { 'vue-a11y': pluginVueA11y } : {}),
@@ -63,7 +63,7 @@ export async function vue(options: OptionsVue & OptionsHasTypeScript & OptionsOv
           sourceType: 'module',
         },
       },
-      name: 'kirklin/vue/rules',
+      name: 'senran/vue/rules',
       processor:
         sfcBlocks === false
           ? pluginVue.processors['.vue']
@@ -92,7 +92,6 @@ export async function vue(options: OptionsVue & OptionsHasTypeScript & OptionsOv
               ...(pluginVue.configs['flat/recommended'].map(c => c.rules).reduce((acc, c) => ({ ...acc, ...c }), {}) as any),
             }),
 
-        'kirklin/no-top-level-await': 'off',
         'node/prefer-global/process': 'off',
         'ts/explicit-function-return-type': 'off',
 

@@ -26,14 +26,14 @@ export async function test(options: OptionsFiles & OptionsIsInEditor & OptionsOv
 
   return [
     {
-      name: 'kirklin/test/setup',
+      name: 'senran/test/setup',
       plugins: {
         test: _pluginTest,
       },
     },
     {
       files,
-      name: 'kirklin/test/rules',
+      name: 'senran/test/rules',
       rules: {
         'test/consistent-test-it': ['error', { fn: 'it', withinDescribe: 'it' }],
         'test/no-identical-title': 'error',
@@ -45,7 +45,6 @@ export async function test(options: OptionsFiles & OptionsIsInEditor & OptionsOv
 
         // Disables
         ...{
-          'kirklin/no-top-level-await': 'off',
           'no-unused-expressions': 'off',
           'node/prefer-global/process': 'off',
           'ts/explicit-function-return-type': 'off',

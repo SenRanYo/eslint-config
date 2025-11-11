@@ -14,7 +14,7 @@ export async function svelte(options: OptionsHasTypeScript & OptionsOverrides & 
 
   return [
     {
-      name: 'kirklin/svelte/setup',
+      name: 'senran/svelte/setup',
       plugins: {
         svelte: pluginSvelte,
       },
@@ -28,7 +28,7 @@ export async function svelte(options: OptionsHasTypeScript & OptionsOverrides & 
           parser: options.typescript ? ((await interopDefault(import('@typescript-eslint/parser'))) as any) : null,
         },
       },
-      name: 'kirklin/svelte/rules',
+      name: 'senran/svelte/rules',
       processor: pluginSvelte.processors['.svelte'],
       rules: {
         'no-undef': 'off', // incompatible with most recent (attribute-form) generic types RFC

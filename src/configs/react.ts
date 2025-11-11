@@ -38,7 +38,7 @@ export async function react(options: OptionsTypeScriptParserOptions & OptionsTyp
 
   return [
     {
-      name: 'kirklin/react/setup',
+      name: 'senran/react/setup',
       plugins: {
         react: plugins['@eslint-react'],
         'react-dom': plugins['@eslint-react/dom'],
@@ -59,7 +59,7 @@ export async function react(options: OptionsTypeScriptParserOptions & OptionsTyp
         },
         sourceType: 'module',
       },
-      name: 'kirklin/react/rules',
+      name: 'senran/react/rules',
       rules: {
         // recommended rules from eslint-plugin-react-x https://eslint-react.xyz/docs/rules/overview#core-rules
         'react/jsx-no-duplicate-props': 'warn',
@@ -170,7 +170,7 @@ export async function react(options: OptionsTypeScriptParserOptions & OptionsTyp
           {
             files: filesTypeAware,
             ignores: ignoresTypeAware,
-            name: 'kirklin/react/type-aware-rules',
+            name: 'senran/react/type-aware-rules',
             rules: {
               ...typeAwareRules,
             },

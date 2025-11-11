@@ -39,20 +39,6 @@ export async function combine(...configs: Awaitable<TypedFlatConfigItem | TypedF
 
 /**
  * 根据映射表替换规则名称中的插件前缀，用于兼容不同命名空间。
- *
- * @example
- * ```ts
- * import { renameRules } from '@kirklin/eslint-config'
- *
- * export default [{
- *   rules: renameRules(
- *     {
- *       '@typescript-eslint/indent': 'error'
- *     },
- *     { '@typescript-eslint': 'ts' }
- *   )
- * }]
- * ```
  */
 export function renameRules(rules: Record<string, any>, map: Record<string, string>): Record<string, any> {
   return Object.fromEntries(
@@ -69,17 +55,6 @@ export function renameRules(rules: Record<string, any>, map: Record<string, stri
 
 /**
  * 批量重命名 Flat Config 中的插件名，保证规则与插件引用保持一致。
- *
- * @example
- * ```ts
- * import { renamePluginInConfigs } from '@kirklin/eslint-config'
- * import someConfigs from './some-configs'
- *
- * export default renamePluginInConfigs(someConfigs, {
- *   '@typescript-eslint': 'ts',
- *   '@stylistic': 'style',
- * })
- * ```
  */
 export function renamePluginInConfigs(configs: TypedFlatConfigItem[], map: Record<string, string>): TypedFlatConfigItem[] {
   return configs.map(i => {

@@ -1,5 +1,4 @@
 import type { OptionsOverrides, StylisticConfig, TypedFlatConfigItem } from '../types';
-import { pluginKirkLin } from '../plugin';
 import { interopDefault } from '../utils';
 
 export const StylisticConfigDefaults: StylisticConfig = {
@@ -38,29 +37,17 @@ export async function stylistic(options: StylisticOptions = {}): Promise<TypedFl
 
   return [
     {
-      name: 'kirklin/stylistic/rules',
+      name: 'senran/stylistic/rules',
       plugins: {
-        kirklin: pluginKirkLin,
         style: pluginStylistic,
       },
       rules: {
         ...config.rules,
 
-        'kirklin/consistent-chaining': 'error',
-        'kirklin/consistent-list-newline': 'error',
         'style/brace-style': ['error', '1tbs', { allowSingleLine: false }],
         'style/member-delimiter-style': ['error', { multiline: { delimiter: 'semi' } }],
 
-        ...(lessOpinionated
-          ? {
-              curly: ['error', 'all'],
-            }
-          : {
-              curly: ['error', 'all'],
-              'kirklin/if-newline': 'error',
-              'kirklin/top-level-function': 'error',
-            }),
-
+        curly: ['error', 'all'],
         'style/generator-star-spacing': ['error', { after: true, before: false }],
         'style/yield-star-spacing': ['error', { after: true, before: false }],
 

@@ -11,7 +11,7 @@ export async function unocss(options: OptionsUnoCSS = {}): Promise<TypedFlatConf
 
   return [
     {
-      name: 'kirklin/unocss',
+      name: 'senran/unocss',
       plugins: {
         unocss: pluginUnoCSS,
       },

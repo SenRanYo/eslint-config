@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises';
-import { builtinRules } from 'eslint/use-at-your-own-risk';
+import { Linter } from 'eslint';
 import { flatConfigsToRulesDTS } from 'eslint-typegen/core';
 import {
   combine,
@@ -30,7 +30,7 @@ import {
 } from '../src';
 
 const configs = await combine(
-  { plugins: { '': { rules: Object.fromEntries(builtinRules.entries()) } } },
+  { plugins: { '': { rules: Object.fromEntries(new Linter({ configType: 'eslintrc' }).getRules()) } } },
   comments(),
   formatters(),
   imports(),
@@ -57,15 +57,12 @@ const configs = await combine(
   yaml()
 );
 
-const configNames = configs.map(i => i.name).filter(Boolean) as string[];
+const names = configs.map(i => i.name).filter(Boolean);
 
-let dts = await flatConfigsToRulesDTS(configs, {
-  includeAugmentation: false,
-});
+let dts = await flatConfigsToRulesDTS(configs, { includeAugmentation: false });
 
 dts += `
-// Names of all the configs
-export type ConfigNames = ${configNames.map(i => `'${i}'`).join(' | ')}
+export type ConfigNames = ${names.map(name => `'${name}'`).join(' | ')}
 `;
 
-await fs.writeFile('src/typegen.d.ts', dts);
+await fs.writeFile('src/types/typegen.d.ts', dts);

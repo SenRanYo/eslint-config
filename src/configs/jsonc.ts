@@ -12,7 +12,7 @@ export async function jsonc(options: OptionsFiles & OptionsStylistic & OptionsOv
 
   return [
     {
-      name: 'kirklin/jsonc/setup',
+      name: 'senran/jsonc/setup',
       plugins: {
         jsonc: pluginJsonc as any,
       },
@@ -22,7 +22,7 @@ export async function jsonc(options: OptionsFiles & OptionsStylistic & OptionsOv
       languageOptions: {
         parser: parserJsonc,
       },
-      name: 'kirklin/jsonc/rules',
+      name: 'senran/jsonc/rules',
       rules: {
         'jsonc/no-bigint-literals': 'error',
         'jsonc/no-binary-expression': 'error',

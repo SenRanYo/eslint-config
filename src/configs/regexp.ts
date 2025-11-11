@@ -20,7 +20,7 @@ export async function regexp(options: OptionsRegExp & OptionsOverrides = {}): Pr
   return [
     {
       ...config,
-      name: 'kirklin/regexp/rules',
+      name: 'senran/regexp/rules',
       rules: {
         ...rules,
         ...options.overrides,

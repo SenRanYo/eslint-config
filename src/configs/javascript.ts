@@ -1,6 +1,6 @@
 import type { OptionsIsInEditor, OptionsOverrides, TypedFlatConfigItem } from '../types';
 import globals from 'globals';
-import { pluginKirkLin, pluginUnusedImports } from '../plugin';
+import { pluginUnusedImports } from '../plugin';
 
 export async function javascript(options: OptionsIsInEditor & OptionsOverrides = {}): Promise<TypedFlatConfigItem[]> {
   const { isInEditor = false, overrides = {} } = options;
@@ -29,12 +29,11 @@ export async function javascript(options: OptionsIsInEditor & OptionsOverrides =
       linterOptions: {
         reportUnusedDisableDirectives: true,
       },
-      name: 'kirklin/javascript/setup',
+      name: 'senran/javascript/setup',
     },
     {
-      name: 'kirklin/javascript/rules',
+      name: 'senran/javascript/rules',
       plugins: {
-        kirklin: pluginKirkLin,
         'unused-imports': pluginUnusedImports,
       },
       rules: {
@@ -47,7 +46,6 @@ export async function javascript(options: OptionsIsInEditor & OptionsOverrides =
         'default-case-last': 'error',
         'dot-notation': ['error', { allowKeywords: true }],
         eqeqeq: ['error', 'smart'],
-        'kirklin/no-top-level-await': 'error',
         'new-cap': ['error', { capIsNew: false, newIsCap: true, properties: true }],
         'no-alert': 'error',
         'no-array-constructor': 'error',

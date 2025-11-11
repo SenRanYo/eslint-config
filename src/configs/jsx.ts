@@ -15,7 +15,7 @@ export async function jsx(options: OptionsJSX = {}): Promise<TypedFlatConfigItem
         },
       },
     },
-    name: 'kirklin/jsx/setup',
+    name: 'senran/jsx/setup',
     plugins: {},
     rules: {},
   };

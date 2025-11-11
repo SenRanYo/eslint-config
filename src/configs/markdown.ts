@@ -12,7 +12,7 @@ export async function markdown(options: OptionsFiles & OptionsComponentExts & Op
 
   return [
     {
-      name: 'kirklin/markdown/setup',
+      name: 'senran/markdown/setup',
       plugins: {
         markdown,
       },
@@ -20,7 +20,7 @@ export async function markdown(options: OptionsFiles & OptionsComponentExts & Op
     {
       files,
       ignores: [GLOB_MARKDOWN_IN_MARKDOWN],
-      name: 'kirklin/markdown/processor',
+      name: 'senran/markdown/processor',
       // `eslint-plugin-markdown` only creates virtual files for code blocks,
       // but not the markdown file itself. We use `eslint-merge-processors` to
       // add a pass-through processor for the markdown file itself.
@@ -31,7 +31,7 @@ export async function markdown(options: OptionsFiles & OptionsComponentExts & Op
       languageOptions: {
         parser: parserPlain,
       },
-      name: 'kirklin/markdown/parser',
+      name: 'senran/markdown/parser',
     },
     {
       files: [GLOB_MARKDOWN_CODE, ...componentExts.map(ext => `${GLOB_MARKDOWN}/**/*.${ext}`)],
@@ -42,10 +42,8 @@ export async function markdown(options: OptionsFiles & OptionsComponentExts & Op
           },
         },
       },
-      name: 'kirklin/markdown/disables',
+      name: 'senran/markdown/disables',
       rules: {
-        'kirklin/no-top-level-await': 'off',
-
         'no-alert': 'off',
         'no-console': 'off',
         'no-labels': 'off',

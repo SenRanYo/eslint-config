@@ -6,7 +6,7 @@ export async function unicorn(options: OptionsUnicorn = {}): Promise<TypedFlatCo
   const { allRecommended = false, overrides = {} } = options;
   return [
     {
-      name: 'kirklin/unicorn/rules',
+      name: 'senran/unicorn/rules',
       plugins: {
         unicorn: pluginUnicorn,
       },
