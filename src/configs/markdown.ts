@@ -1,9 +1,8 @@
 import type { OptionsComponentExts, OptionsFiles, OptionsOverrides, TypedFlatConfigItem } from "../types";
 
+import { interopDefault, parserPlain } from "../utils";
 import { mergeProcessors, processorPassThrough } from "eslint-merge-processors";
 import { GLOB_MARKDOWN, GLOB_MARKDOWN_CODE, GLOB_MARKDOWN_IN_MARKDOWN } from "../globs";
-
-import { interopDefault, parserPlain } from "../utils";
 
 /**
  * 为 Markdown 文件及其中的代码块提供解析、禁用和规则控制，支持扩展自定义组件后缀。

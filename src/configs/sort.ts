@@ -238,6 +238,7 @@ export function sortImports(): TypedFlatConfigItem[] {
         senran: pluginSenran,
       },
       rules: {
+        "senran/import-length-order": "error",
         "senran/no-console-in-lib": "error",
       },
     },

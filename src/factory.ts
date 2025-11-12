@@ -1,9 +1,12 @@
 import type { Linter } from "eslint";
-import type { Awaitable, ConfigNames, OptionsConfig, TypedFlatConfigItem } from "./types";
 import type { RuleOptions } from "./types/typegen";
+import type { Awaitable, ConfigNames, OptionsConfig, TypedFlatConfigItem } from "./types";
 
-import { FlatConfigComposer } from "eslint-flat-config-utils";
+import { regexp } from "./configs/regexp";
 import { isPackageExists } from "local-pkg";
+import { formatters } from "./configs/formatters";
+import { interopDefault, isInEditorEnv } from "./utils";
+import { FlatConfigComposer } from "eslint-flat-config-utils";
 import {
   comments,
   disables,
@@ -33,9 +36,6 @@ import {
   vue,
   yaml,
 } from "./configs";
-import { formatters } from "./configs/formatters";
-import { regexp } from "./configs/regexp";
-import { interopDefault, isInEditorEnv } from "./utils";
 
 const flatConfigProps = ["name", "languageOptions", "linterOptions", "processor", "plugins", "rules", "settings"] satisfies (keyof TypedFlatConfigItem)[];
 

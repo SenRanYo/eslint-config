@@ -1,10 +1,10 @@
 import type { OptionsConfig, TypedFlatConfigItem } from "../src/types";
 
-import fs from "node:fs/promises";
-import { join, resolve } from "node:path";
 import { execa } from "execa";
-import { glob } from "tinyglobby";
 
+import fs from "node:fs/promises";
+import { glob } from "tinyglobby";
+import { join, resolve } from "node:path";
 import { afterAll, beforeAll, it } from "vitest";
 
 const isWindows = process.platform === "win32";

@@ -14,20 +14,7 @@ export async function perfectionist(): Promise<TypedFlatConfigItem[]> {
       plugins: {
         perfectionist: pluginPerfectionist,
       },
-      rules: {
-        "perfectionist/sort-exports": ["error", { order: "asc", type: "natural" }], // 导出对象自然排序
-        "perfectionist/sort-imports": [
-          "error",
-          {
-            groups: ["type", ["parent-type", "sibling-type", "index-type", "internal-type"], "builtin", "external", "internal", ["parent", "sibling", "index"], "side-effect", "object", "unknown"],
-            newlinesBetween: "ignore",
-            order: "asc",
-            type: "natural",
-          },
-        ], // import 分组排序
-        "perfectionist/sort-named-exports": ["error", { order: "asc", type: "natural" }], // 命名导出排序
-        "perfectionist/sort-named-imports": ["error", { order: "asc", type: "natural" }], // 命名导入排序
-      },
+      rules: {},
     },
   ];
 }

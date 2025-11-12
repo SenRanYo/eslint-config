@@ -1,5 +1,6 @@
 import type { ESLint } from "eslint";
 import { noConsoleInLibRule } from "../rules/no-console-in-lib";
+import { importLengthOrderRule } from "../rules/import-length-order";
 
 const plugin = {
   meta: {
@@ -8,6 +9,7 @@ const plugin = {
   },
   rules: {
     "no-console-in-lib": noConsoleInLibRule,
+    "import-length-order": importLengthOrderRule,
   },
 } satisfies ESLint.Plugin;
 

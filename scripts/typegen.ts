@@ -1,5 +1,5 @@
-import fs from "node:fs/promises";
 import { Linter } from "eslint";
+import fs from "node:fs/promises";
 import { flatConfigsToRulesDTS } from "eslint-typegen/core";
 import {
   combine,

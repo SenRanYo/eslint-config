@@ -16,7 +16,6 @@ export async function imports(options: OptionsOverrides & OptionsStylistic = {})
       rules: {
         // --- import/export 基础健壮性，防止重复或默认导出滥用 ---
         "import/consistent-type-specifier-style": ["error", "top-level"], // type 导入统一写在顶层
-        "import/first": "error", // import 必须位于文件顶部
         "import/no-duplicates": "error", // 禁止重复导入同一模块
 
         "import/no-mutable-exports": "error", // export 的引用应不可变

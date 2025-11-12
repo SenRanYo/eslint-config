@@ -1,7 +1,7 @@
 import type { OptionsFiles, OptionsOverrides, OptionsStylistic, TypedFlatConfigItem } from "../types";
 
-import { GLOB_JSON, GLOB_JSON5, GLOB_JSONC } from "../globs";
 import { interopDefault } from "../utils";
+import { GLOB_JSON, GLOB_JSON5, GLOB_JSONC } from "../globs";
 
 /**
  * 为 JSON/JSONC/JSON5 提供语法解析与排序、缩进等规则，可通过 `stylistic` 和 `overrides` 定制。

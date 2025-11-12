@@ -1,7 +1,7 @@
-import type { RuleListener, RuleWithMeta, RuleWithMetaAndName } from "@typescript-eslint/utils/eslint-utils";
-import type { RuleContext } from "@typescript-eslint/utils/ts-eslint";
 import type { Rule } from "eslint";
 import type { Awaitable, TypedFlatConfigItem } from "./types";
+import type { RuleContext } from "@typescript-eslint/utils/ts-eslint";
+import type { RuleListener, RuleWithMeta, RuleWithMetaAndName } from "@typescript-eslint/utils/eslint-utils";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { isPackageExists } from "local-pkg";
