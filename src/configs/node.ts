@@ -1,6 +1,6 @@
 import type { TypedFlatConfigItem } from "../types";
 
-import { pluginNode } from "../plugin";
+import { pluginNode } from "../plugins";
 
 /**
  * Node.js 运行时相关的安全规则，覆盖回调错误处理、API 废弃提示等。

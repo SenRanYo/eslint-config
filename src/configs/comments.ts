@@ -1,5 +1,5 @@
 import type { TypedFlatConfigItem } from "../types";
-import { pluginComments } from "../plugin";
+import { pluginComments } from "../plugins";
 
 /**
  * 约束 ESLint 相关指令的使用，避免随意禁用规则或留下失效的启停注释。

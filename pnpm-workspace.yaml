@@ -1,2 +1,4 @@
 onlyBuiltDependencies:
   - esbuild
+
+storeDir: /Users/macos/Library/pnpm/store/v10

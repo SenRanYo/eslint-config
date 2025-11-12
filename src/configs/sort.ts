@@ -1,4 +1,5 @@
 import type { TypedFlatConfigItem } from "../types";
+import { pluginSenran } from "../plugins";
 
 /**
  * 针对 package.json 字段进行排序（依赖 jsonc 配置提供的解析器）。
@@ -224,6 +225,20 @@ export function sortTsconfig(): TypedFlatConfigItem[] {
             pathPattern: "^compilerOptions$",
           },
         ], // tsconfig 与 compilerOptions 字段排序
+      },
+    },
+  ];
+}
+
+export function sortImports(): TypedFlatConfigItem[] {
+  return [
+    {
+      name: "senran/sort/rules",
+      plugins: {
+        senran: pluginSenran,
+      },
+      rules: {
+        "senran/no-console-in-lib": "error",
       },
     },
   ];

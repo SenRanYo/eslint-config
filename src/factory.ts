@@ -20,6 +20,7 @@ import {
   pnpm,
   react,
   solid,
+  sortImports,
   sortPackageJson,
   sortTsconfig,
   stylistic,
@@ -109,7 +110,7 @@ export function eslint(
       configs.push(
         interopDefault(import("eslint-config-flat-gitignore")).then(r => [
           r({
-            name: "kirklin/gitignore",
+            name: "eslint/gitignore",
             ...enableGitignore,
           }),
         ]),
@@ -118,7 +119,7 @@ export function eslint(
       configs.push(
         interopDefault(import("eslint-config-flat-gitignore")).then(r => [
           r({
-            name: "kirklin/gitignore",
+            name: "eslint/gitignore",
             strict: false,
           }),
         ]),
@@ -271,6 +272,7 @@ export function eslint(
       }),
       sortPackageJson(),
       sortTsconfig(),
+      sortImports(),
     );
   }
 
@@ -312,7 +314,7 @@ export function eslint(
   configs.push(disables());
 
   if ("files" in options) {
-    throw new Error("[@kirklin/eslint-config] The first argument should not contain the \"files\" property as the options are supposed to be global. Place it in the second or later config instead.");
+    throw new Error("[@eslint/eslint-config] The first argument should not contain the \"files\" property as the options are supposed to be global. Place it in the second or later config instead.");
   }
 
   // User can optionally pass a flat config item to the first argument

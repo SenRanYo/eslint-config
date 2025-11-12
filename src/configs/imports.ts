@@ -1,5 +1,5 @@
 import type { OptionsOverrides, OptionsStylistic, TypedFlatConfigItem } from "../types";
-import { pluginImportLite } from "../plugin";
+import { pluginImportLite } from "../plugins";
 
 /**
  * 约束模块导入/导出的通用最佳实践，可按需关闭风格化规则。

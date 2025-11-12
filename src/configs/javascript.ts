@@ -1,6 +1,6 @@
 import type { OptionsIsInEditor, OptionsOverrides, TypedFlatConfigItem } from "../types";
 import globals from "globals";
-import { pluginUnusedImports } from "../plugin";
+import { pluginUnusedImports } from "../plugins";
 
 /**
  * 提供纯 JavaScript 环境（含浏览器、Node、ES2021 全局）的核心规则，并允许在编辑器模式下降级部分提示。

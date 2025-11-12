@@ -15,5 +15,4 @@ export default eslint(
     jsx: { a11y: true },
   },
   { ignores: ["fixtures", "_fixtures", "**/constants-generated.ts"] },
-  { files: ["src/**/*.ts"], rules: { "perfectionist/sort-objects": "error" } },
 );

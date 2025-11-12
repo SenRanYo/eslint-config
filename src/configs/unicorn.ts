@@ -1,6 +1,6 @@
 import type { OptionsUnicorn, TypedFlatConfigItem } from "../types";
 
-import { pluginUnicorn } from "../plugin";
+import { pluginUnicorn } from "../plugins";
 
 /**
  * 集成 `eslint-plugin-unicorn` 常用规则，可切换为 `allRecommended` 以启用官方完整推荐集。
