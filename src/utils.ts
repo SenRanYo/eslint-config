@@ -1,6 +1,6 @@
 import type { Rule } from "eslint";
-import type { Awaitable, TypedFlatConfigItem } from "./types";
 import type { RuleContext } from "@typescript-eslint/utils/ts-eslint";
+import type { Awaitable, TypedFlatConfigItem } from "./types";
 import type { RuleListener, RuleWithMeta, RuleWithMetaAndName } from "@typescript-eslint/utils/eslint-utils";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
@@ -152,6 +152,7 @@ export function isInGitHooksOrLintStaged(): boolean {
  * 记录已经撰写独立文档的规则名称，便于自动拼装链接。
  */
 const hasDocs = [
+  "import-length-order",
   // "no-console-in-lib",
 ] as const;
 

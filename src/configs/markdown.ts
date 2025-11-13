@@ -21,13 +21,14 @@ export async function markdown(options: OptionsFiles & OptionsComponentExts & Op
     },
     {
       files,
-      ignores: [GLOB_MARKDOWN_IN_MARKDOWN],
+      ignores: [GLOB_MARKDOWN_IN_MARKDOWN, "src/rules/**/*.md"],
       name: "senran/markdown/processor",
       // `eslint-plugin-markdown` 只会为代码块生成虚拟文件，不会处理 Markdown 本身；借助 mergeProcessors 再挂一个透传处理器让 Markdown 文件也能进入 ESLint。
       processor: mergeProcessors([markdown.processors!.markdown, processorPassThrough]),
     },
     {
       files,
+      ignores: [GLOB_MARKDOWN_IN_MARKDOWN, "src/rules/**/*.md"],
       languageOptions: {
         parser: parserPlain,
       },
@@ -35,6 +36,7 @@ export async function markdown(options: OptionsFiles & OptionsComponentExts & Op
     },
     {
       files: [GLOB_MARKDOWN_CODE, ...componentExts.map(ext => `${GLOB_MARKDOWN}/**/*.${ext}`)],
+      ignores: ["src/rules/**/*.md/**"],
       languageOptions: {
         parserOptions: {
           ecmaFeatures: {

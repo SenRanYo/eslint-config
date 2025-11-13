@@ -1,9 +1,9 @@
 import type { OptionsConfig, TypedFlatConfigItem } from "../src/types";
 
-import { execa } from "execa";
-
 import fs from "node:fs/promises";
 import { glob } from "tinyglobby";
+import { execa } from "execa";
+
 import { join, resolve } from "node:path";
 import { afterAll, beforeAll, it } from "vitest";
 

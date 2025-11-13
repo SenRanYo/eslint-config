@@ -1,14 +1,30 @@
 import type { TSESTree } from "@typescript-eslint/utils";
 import { createEslintRule } from "../utils";
 
-type Options = [];
-type MessageIds = "shouldSort";
+/**
+ * 配置选项类型
+ * @property {boolean} [groupType=true] - 是否将 type-only 导入分组到最前面
+ * @property {string[]} [ignoreNames=[]] - 忽略的模块名称列表
+ * @property {number} [maxLines=50] - 导入块最大行数，超过则不自动排序
+ */
+type Options = [
+  {
+    groupType?: boolean;
+    ignoreNames?: string[];
+    maxLines?: number;
+  }?,
+];
+
+type MessageIds = "shouldSort" | "shouldSortSpecifiers";
 
 type SortableNode
   = | TSESTree.ImportDeclaration
     | TSESTree.ExportAllDeclaration
     | (TSESTree.ExportNamedDeclaration & { source: TSESTree.StringLiteral });
 
+/**
+ * 类型守卫函数：判断语句是否为可排序的导入/导出语句
+ */
 function isSortableStatement(statement: TSESTree.Statement): statement is SortableNode {
   if (statement.type === "ImportDeclaration") {
     return true;
@@ -19,55 +35,370 @@ function isSortableStatement(statement: TSESTree.Statement): statement is Sortab
   return statement.type === "ExportNamedDeclaration" && !!statement.source;
 }
 
+/**
+ * 从导入/导出节点中获取模块名称
+ */
+function getModuleName(node: SortableNode): string {
+  if (node.type === "ImportDeclaration") {
+    return node.source.value;
+  }
+  if (node.type === "ExportAllDeclaration") {
+    return node.source.value;
+  }
+  if (node.type === "ExportNamedDeclaration" && node.source) {
+    return node.source.value;
+  }
+  return "";
+}
+
+/**
+ * ESLint 自定义规则：按导入语句长度排序
+ *
+ * 功能描述：
+ * - 自动排序文件顶部的 import/export 语句块
+ * - 优先级：type-only 导入 > 普通导入
+ * - 同优先级按语句长度从短到长排序
+ * - 支持对单个 import 的 specifiers 进行排序
+ * - 支持忽略特定模块的导入
+ * - 支持限制导入块的最大行数
+ *
+ * 排序示例：
+ * ❌ Before:
+ *   import { veryLongName } from "module";
+ *   import type { T } from "types";
+ *   import { a } from "lib";
+ *
+ * ✅ After:
+ *   import type { T } from "types";      // type-only 优先
+ *   import { a } from "lib";              // 长度最短
+ *   import { veryLongName } from "module";  // 长度最长
+ */
 export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
   name: "import-length-order",
   meta: {
-    docs: { description: "按语句长度对 import/export 语句排序，短语句优先。" },
+    docs: {
+      description: "按语句长度对 import/export 语句排序，type-only 优先，短语句优先。",
+    },
     fixable: "code",
-    schema: [],
+    schema: [
+      {
+        type: "object",
+        properties: {
+          groupType: {
+            type: "boolean",
+            description: "是否将 type-only 导入分组到最前面（默认 true）",
+            default: true,
+          },
+          ignoreNames: {
+            type: "array",
+            items: { type: "string" },
+            description: "忽略的模块名称列表，这些模块的导入不参与排序",
+            default: [],
+          },
+          maxLines: {
+            type: "number",
+            description: "导入块最大行数，超过此值则不自动排序（默认 50）",
+            default: 50,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     type: "suggestion",
     messages: {
-      shouldSort: "请按语句长度从短到长排列导入/再导出语句。",
+      shouldSort: "请按语句长度从短到长排列导入/导出语句。type-only 导入应排在最前面。",
+      shouldSortSpecifiers: "请在 import 大括号内按长度从短到长排列导入项。",
     },
   },
-  defaultOptions: [],
+  defaultOptions: [{ groupType: true, ignoreNames: [], maxLines: 50 }],
   create(context) {
     const sourceCode = context.getSourceCode();
+    const [options = {}] = context.options;
+    const { groupType = true, ignoreNames = [], maxLines = 50 } = options;
+
+    /**
+     * 收集文件顶部的连续 import/export 语句块
+     * 遇到其他语句类型则停止收集
+     */
+    function collectSortableBlock(programNode: TSESTree.Program): SortableNode[] {
+      const result: SortableNode[] = [];
+      let hasStartedCollecting = false;
+
+      for (const statement of programNode.body) {
+        if (!hasStartedCollecting) {
+          // 跳过文件头部的指令声明（如 "use strict"）
+          if (statement.type === "ExpressionStatement" && typeof statement.directive === "string") {
+            continue;
+          }
+          if (isSortableStatement(statement)) {
+            hasStartedCollecting = true;
+            result.push(statement);
+            continue;
+          }
+          // 顶部遇到非导入语句说明文件并未以 import/export 块开头，停止收集
+          break;
+        }
+
+        if (isSortableStatement(statement)) {
+          result.push(statement);
+          continue;
+        }
+
+        // 导入块被中断，停止收集
+        break;
+      }
+
+      return result;
+    }
+
+    /**
+     * 对单个 import 语句的 specifiers 进行排序
+     * 在大括号内部按长度从短到长排序
+     */
+    function enforceSpecifierOrder(node: TSESTree.ImportDeclaration): void {
+      // 只处理具体的 specifiers，跳过 default 和 namespace imports
+      const specifiers = node.specifiers.filter(
+        (specifier): specifier is TSESTree.ImportSpecifier => specifier.type === "ImportSpecifier",
+      );
+      if (specifiers.length < 2) {
+        return;
+      }
+
+      // 获取大括号位置
+      const closeBrace = node.source
+        ? sourceCode.getTokenBefore(node.source, (token): token is TSESTree.Token => token.value === "}")
+        : null;
+      const openBrace = sourceCode.getTokenBefore(
+        specifiers[0],
+        (token): token is TSESTree.Token => token.value === "{",
+      );
+      if (!closeBrace || !openBrace) {
+        return;
+      }
+
+      // 构建 specifier 排序项
+      const specifierItems = specifiers.map((specifier, index) => ({
+        length: getSpecifierComparableLength(specifier),
+        originalIndex: index,
+        specifier,
+      }));
+
+      // 按长度排序
+      const sorted = [...specifierItems].sort((a, b) => {
+        if (a.length !== b.length) {
+          return a.length - b.length;
+        }
+        return a.originalIndex - b.originalIndex;
+      });
+
+      // 检查是否已排序
+      const isOrdered = specifierItems.every((item, idx) => item.originalIndex === sorted[idx].originalIndex);
+      if (isOrdered) {
+        return;
+      }
+
+      const eol = sourceCode.text.includes("\r\n") ? "\r\n" : "\n";
+      const innerText = sourceCode.text.slice(openBrace.range[1], closeBrace.range[0]);
+      const hasLineBreak = /\r?\n/.test(innerText);
+      const beforeFirstSpecifier = sourceCode.text.slice(openBrace.range[1], specifiers[0].range[0]);
+      const afterLastSpecifier = sourceCode.text.slice(specifiers[specifiers.length - 1].range[1], closeBrace.range[0]);
+
+      // 检测缩进以保持原有格式
+      const indent = hasLineBreak ? detectIndent(innerText, beforeFirstSpecifier) : "";
+      const head = beforeFirstSpecifier.length > 0 ? beforeFirstSpecifier : hasLineBreak ? `${eol}${indent}` : " ";
+      const tailBase = afterLastSpecifier.length > 0 ? afterLastSpecifier : hasLineBreak ? eol : "";
+      const between = hasLineBreak ? `${eol}${indent}` : " ";
+      const trailingCommaPreferred = /,\s*$/.test(
+        sourceCode.text.slice(specifiers[specifiers.length - 1].range[0], closeBrace.range[0]),
+      );
+
+      context.report({
+        messageId: "shouldSortSpecifiers",
+        node,
+        fix(fixer) {
+          // 重新排列 specifiers
+          const sortedTexts = sorted.map((item, idx) => {
+            const text = sourceCode.getText(item.specifier);
+            const needsComma = idx < sorted.length - 1 || trailingCommaPreferred;
+            return `${text}${needsComma ? "," : ""}`;
+          });
+
+          // 构建新的 specifier 列表
+          const rewrittenInner = sortedTexts.reduce((acc, text, idx) => {
+            if (idx === 0) {
+              return `${head}${text}`;
+            }
+            return `${acc}${between}${text}`;
+          }, "");
+
+          const tail = trailingCommaPreferred ? removeLeadingComma(tailBase) : tailBase;
+          return fixer.replaceTextRange([openBrace.range[1], closeBrace.range[0]], `${rewrittenInner}${tail}`);
+        },
+      });
+    }
+
+    /**
+     * 计算语句的可比较长度（只计算 from 关键字前的部分）
+     * 这样可以降低导入路径长度对排序的影响
+     */
+    function getComparableLength(node: SortableNode): number {
+      const fullLength = sourceCode.getText(node).length;
+      if (!("source" in node) || !node.source) {
+        return fullLength;
+      }
+
+      // 找到 from 关键字的位置
+      const fromToken = sourceCode.getTokenBefore(node.source, (token): token is TSESTree.Token => token.value === "from");
+      const comparableEnd = fromToken ? fromToken.range[0] : node.source.range[0];
+      return Math.max(0, comparableEnd - node.range[0]);
+    }
+
+    /**
+     * 计算单个 specifier 的长度（包括别名）
+     */
+    function getSpecifierComparableLength(specifier: TSESTree.ImportSpecifier): number {
+      return sourceCode.getText(specifier).length;
+    }
+
+    /**
+     * 检测 import 大括号内的缩进格式
+     * 用于排序后保持原有的缩进风格
+     */
+    function detectIndent(innerText: string, beforeFirstSpecifier: string): string {
+      // 查找第一行缩进
+      const match = /\n([ \t]*)\S/.exec(innerText);
+      if (match && match[1] !== undefined) {
+        return match[1];
+      }
+
+      // 查找开括号后的缩进
+      const lastNewline = Math.max(beforeFirstSpecifier.lastIndexOf("\n"), beforeFirstSpecifier.lastIndexOf("\r"));
+      if (lastNewline >= 0) {
+        return beforeFirstSpecifier.slice(lastNewline + 1) || "  ";
+      }
+
+      return "  ";
+    }
+
+    /**
+     * 移除字符串开头的逗号
+     * 用于处理尾部逗号的调整
+     */
+    function removeLeadingComma(tail: string): string {
+      const firstNonWhitespace = tail.search(/\S/);
+      if (firstNonWhitespace === -1) {
+        return tail;
+      }
+      if (tail[firstNonWhitespace] !== ",") {
+        return tail;
+      }
+      return `${tail.slice(0, firstNonWhitespace)}${tail.slice(firstNonWhitespace + 1)}`;
+    }
+
+    /**
+     * 获取导入/导出语句的优先级
+     * type-only 导入/导出优先级最高（0），普通导入/导出优先级较低（1）
+     * 这样可以确保 type-only 导入始终排在最前面
+     */
+    function getTypePriority(node: SortableNode): number {
+      if (node.type === "ImportDeclaration") {
+        // 整条导入语句标记为 type
+        if (node.importKind === "type") {
+          return 0;
+        }
+        // 所有 specifier 都标记为 type
+        if (
+          node.specifiers.length > 0
+          && node.specifiers.every(
+            specifier => specifier.type === "ImportSpecifier" && specifier.importKind === "type",
+          )
+        ) {
+          return 0;
+        }
+        return 1;
+      }
+
+      if (node.type === "ExportNamedDeclaration") {
+        // 整条导出语句标记为 type
+        if (node.exportKind === "type") {
+          return 0;
+        }
+        // 所有 specifier 都标记为 type
+        if (
+          node.specifiers
+          && node.specifiers.length > 0
+          && node.specifiers.every(specifier => specifier.exportKind === "type")
+        ) {
+          return 0;
+        }
+      }
+
+      return 1;
+    }
 
     return {
       Program(programNode) {
+        // 收集文件顶部的 import/export 语句块
         const sortableNodes = collectSortableBlock(programNode);
         if (sortableNodes.length < 2) {
           return;
         }
 
+        // 检查行数限制：超过 maxLines 则不自动排序
+        const totalLines
+          = sortableNodes[sortableNodes.length - 1].loc!.end.line - sortableNodes[0].loc!.start.line + 1;
+        if (totalLines > maxLines) {
+          return;
+        }
+
+        // 构建排序项，保留原始段落信息以支持注释保留
         const items = sortableNodes.map((node, index) => {
           const next = sortableNodes[index + 1];
-          const textSegment = sourceCode.text.slice(node.range[0], next ? next.range[0] : node.range[1]);
+          const nodeText = sourceCode.getText(node);
+          const endPos = node.range[1];
+          const trailingPos = next ? next.range[0] : programNode.range[1];
+          const trailing = sourceCode.text.slice(endPos, trailingPos);
+
+          // 检查是否应该忽略此导入（用户配置了忽略列表）
+          const moduleName = getModuleName(node);
+          const shouldIgnore = ignoreNames.includes(moduleName);
+
           return {
-            length: sourceCode.getText(node).length,
+            length: shouldIgnore ? 0 : getComparableLength(node),
             node,
+            nodeText,
+            trailing,
             originalIndex: index,
-            priority: getTypePriority(node),
-            segment: textSegment,
+            priority: groupType ? getTypePriority(node) : 1,
+            shouldIgnore,
           };
         });
 
+        // 按优先级和长度排序
         const sorted = [...items].sort((a, b) => {
+          // 忽略列表中的模块保持原位置
+          if (a.shouldIgnore || b.shouldIgnore) {
+            return a.originalIndex - b.originalIndex;
+          }
+          // 按优先级排序（type-only 优先）
           if (a.priority !== b.priority) {
             return a.priority - b.priority;
           }
+          // 按长度排序（从短到长）
           if (a.length !== b.length) {
             return a.length - b.length;
           }
+          // 保持原有相对顺序
           return a.originalIndex - b.originalIndex;
         });
 
+        // 检查是否已排序
         const isAlreadySorted = items.every((item, idx) => item.originalIndex === sorted[idx].originalIndex);
         if (isAlreadySorted) {
           return;
         }
 
+        // 找到第一个不匹配的位置用于报错
         const firstMismatchIndex = items.findIndex((item, idx) => item.originalIndex !== sorted[idx].originalIndex);
         const eol = sourceCode.text.includes("\r\n") ? "\r\n" : "\n";
         const replaceStart = sortableNodes[0].range[0];
@@ -77,75 +408,30 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
           messageId: "shouldSort",
           node: sortableNodes[firstMismatchIndex],
           fix(fixer) {
-            // 将导入块整体替换成排序后的段落，保留每条语句后原有的空白/注释。
+            // 重新组织排序后的导入块，保留原有空白和注释
             const rewritten = sorted
               .map((item, idx) => {
                 if (idx === sorted.length - 1) {
-                  return item.segment;
+                  // 最后一项保留其后续内容
+                  return item.nodeText + item.trailing;
                 }
-                return /\s$/.test(item.segment) ? item.segment : `${item.segment}${eol}`;
+                // 其他项确保末尾有换行符
+                return /\s$/.test(item.trailing)
+                  ? item.nodeText + item.trailing
+                  : item.nodeText + item.trailing + eol;
               })
               .join("");
             return fixer.replaceTextRange([replaceStart, replaceEnd], rewritten);
           },
         });
+
+        // 对每个 import 语句的 specifiers 进行排序
+        sortableNodes.forEach((node) => {
+          if (node.type === "ImportDeclaration") {
+            enforceSpecifierOrder(node);
+          }
+        });
       },
     };
-
-    function collectSortableBlock(programNode: TSESTree.Program): SortableNode[] {
-      const result: SortableNode[] = [];
-      let hasStartedCollecting = false;
-
-      for (const statement of programNode.body) {
-        if (!hasStartedCollecting) {
-          if (statement.type === "ExpressionStatement" && typeof statement.directive === "string") {
-            continue;
-          }
-          if (isSortableStatement(statement)) {
-            hasStartedCollecting = true;
-            result.push(statement);
-            continue;
-          }
-          // 顶部遇到非导入语句说明文件并未以 import/export 块开头，不再处理。
-          break;
-        }
-
-        if (isSortableStatement(statement)) {
-          result.push(statement);
-          continue;
-        }
-
-        break;
-      }
-
-      return result;
-    }
-
-    /**
-     * type-only 导入/导出优先级最高，始终排在普通语句前面。
-     * 通过整语句 importKind/exportKind 或逐个 specifier 检测类型标记。
-     */
-    function getTypePriority(node: SortableNode): number {
-      if (node.type === "ImportDeclaration") {
-        if (node.importKind === "type") {
-          return 0;
-        }
-        if (node.specifiers.length > 0 && node.specifiers.every(specifier => specifier.type === "ImportSpecifier" && specifier.importKind === "type")) {
-          return 0;
-        }
-        return 1;
-      }
-
-      if (node.type === "ExportNamedDeclaration") {
-        if (node.exportKind === "type") {
-          return 0;
-        }
-        if (node.specifiers && node.specifiers.length > 0 && node.specifiers.every(specifier => specifier.exportKind === "type")) {
-          return 0;
-        }
-      }
-
-      return 1;
-    }
   },
 });

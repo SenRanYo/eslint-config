@@ -1,4 +1,4 @@
-import type { OptionsIsInEditor, OptionsOverrides, TypedFlatConfigItem } from "../types";
+import type { OptionsOverrides, OptionsIsInEditor, TypedFlatConfigItem } from "../types";
 import globals from "globals";
 import { pluginUnusedImports } from "../plugins";
 
