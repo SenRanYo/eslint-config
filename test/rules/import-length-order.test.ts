@@ -1,7 +1,7 @@
 import parser from "@typescript-eslint/parser";
 import { Linter } from "eslint";
-import { describe, expect, it } from "vitest";
-import { importLengthOrderRule } from "../src/rules/import-length-order";
+import { it, expect, describe } from "vitest";
+import { importLengthOrderRule } from "../../src/rules/import-length-order";
 
 const baseConfig = {
   parser: "@typescript-eslint/parser",

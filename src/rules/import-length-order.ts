@@ -52,32 +52,32 @@ function getModuleName(node: SortableNode): string {
 }
 
 /**
- * ESLint 自定义规则：按导入语句长度排序
+ * ESLint custom rule: Sort import statements by length
  *
- * 功能描述：
- * - 自动排序文件顶部的 import/export 语句块
- * - 优先级：type-only 导入 > 普通导入
- * - 同优先级按语句长度从短到长排序
- * - 支持对单个 import 的 specifiers 进行排序
- * - 支持忽略特定模块的导入
- * - 支持限制导入块的最大行数
+ * Features:
+ * - Automatically sort import/export statements at the top of files
+ * - Priority: type-only imports > regular imports
+ * - Same priority: sort by length from shortest to longest
+ * - Support for specifier sorting within single imports
+ * - Support for ignoring specific module names
+ * - Support for limiting import block size
  *
- * 排序示例：
+ * Example:
  * ❌ Before:
  *   import { veryLongName } from "module";
  *   import type { T } from "types";
  *   import { a } from "lib";
  *
  * ✅ After:
- *   import type { T } from "types";      // type-only 优先
- *   import { a } from "lib";              // 长度最短
- *   import { veryLongName } from "module";  // 长度最长
+ *   import type { T } from "types";      // type-only first
+ *   import { a } from "lib";              // shortest first
+ *   import { veryLongName } from "module";  // longest
  */
 export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
   name: "import-length-order",
   meta: {
     docs: {
-      description: "按语句长度对 import/export 语句排序，type-only 优先，短语句优先。",
+      description: "Sort import/export statements by length, with type-only imports first and shorter statements prioritized.",
     },
     fixable: "code",
     schema: [
@@ -86,18 +86,18 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
         properties: {
           groupType: {
             type: "boolean",
-            description: "是否将 type-only 导入分组到最前面（默认 true）",
+            description: "Whether to group type-only imports at the front (default: true)",
             default: true,
           },
           ignoreNames: {
             type: "array",
             items: { type: "string" },
-            description: "忽略的模块名称列表，这些模块的导入不参与排序",
+            description: "List of module names to ignore from sorting",
             default: [],
           },
           maxLines: {
             type: "number",
-            description: "导入块最大行数，超过此值则不自动排序（默认 50）",
+            description: "Maximum lines in import block, won't auto-sort if exceeded (default: 50)",
             default: 50,
           },
         },
@@ -106,8 +106,8 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
     ],
     type: "suggestion",
     messages: {
-      shouldSort: "请按语句长度从短到长排列导入/导出语句。type-only 导入应排在最前面。",
-      shouldSortSpecifiers: "请在 import 大括号内按长度从短到长排列导入项。",
+      shouldSort: "Sort import/export statements by length. Type-only imports should be placed first, followed by shorter statements.",
+      shouldSortSpecifiers: "Sort specifiers inside import braces by length, from shortest to longest.",
     },
   },
   defaultOptions: [{ groupType: true, ignoreNames: [], maxLines: 50 }],
@@ -154,9 +154,13 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
     /**
      * 对单个 import 语句的 specifiers 进行排序
      * 在大括号内部按长度从短到长排序
+     * 仅当 import 语句有具体的 specifiers（不是 default/namespace import）时才处理
      */
     function enforceSpecifierOrder(node: TSESTree.ImportDeclaration): void {
       // 只处理具体的 specifiers，跳过 default 和 namespace imports
+      // ImportDefaultSpecifier: import { a } from "x"
+      // ImportNamespaceSpecifier: import * as x from "y"
+      // ImportSpecifier: 大括号内的具体导入项
       const specifiers = node.specifiers.filter(
         (specifier): specifier is TSESTree.ImportSpecifier => specifier.type === "ImportSpecifier",
       );
@@ -318,6 +322,11 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
         return 1;
       }
 
+      if (node.type === "ExportAllDeclaration") {
+        // export * 不能标记为 type-only，始终返回 1
+        return 1;
+      }
+
       if (node.type === "ExportNamedDeclaration") {
         // 整条导出语句标记为 type
         if (node.exportKind === "type") {
@@ -356,8 +365,11 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
           const next = sortableNodes[index + 1];
           const nodeText = sourceCode.getText(node);
           const endPos = node.range[1];
+          // 获取该节点与下一个节点之间的空白/注释（trailing）
+          // 对于最后一个节点，trailing 延伸到程序末尾或下一条非导入语句
           const trailingPos = next ? next.range[0] : programNode.range[1];
-          const trailing = sourceCode.text.slice(endPos, trailingPos);
+          // 安全地获取 trailing，确保不超出文本范围
+          const trailing = sourceCode.text.slice(endPos, Math.min(trailingPos, sourceCode.text.length));
 
           // 检查是否应该忽略此导入（用户配置了忽略列表）
           const moduleName = getModuleName(node);
@@ -395,6 +407,13 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
         // 检查是否已排序
         const isAlreadySorted = items.every((item, idx) => item.originalIndex === sorted[idx].originalIndex);
         if (isAlreadySorted) {
+          // ✅ 只有在导入块已排序时，才检查 specifier 排序
+          // 避免与导入块排序的 fix 冲突，导致代码被重复复制
+          sortableNodes.forEach((node) => {
+            if (node.type === "ImportDeclaration") {
+              enforceSpecifierOrder(node);
+            }
+          });
           return;
         }
 
@@ -423,13 +442,6 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
               .join("");
             return fixer.replaceTextRange([replaceStart, replaceEnd], rewritten);
           },
-        });
-
-        // 对每个 import 语句的 specifiers 进行排序
-        sortableNodes.forEach((node) => {
-          if (node.type === "ImportDeclaration") {
-            enforceSpecifierOrder(node);
-          }
         });
       },
     };

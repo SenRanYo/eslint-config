@@ -1,24 +1,24 @@
 # import-length-order
 
-按导入语句长度对 `import`/`export` 语句排序，`type-only` 导入优先，短语句优先。
+Sort `import`/`export` statements by length, with `type-only` imports first and shorter statements prioritized.
 
-## 规则详情
+## Rule Details
 
-这个规则自动对文件顶部的 import/export 语句块进行排序，遵循以下优先级：
+This rule automatically sorts import/export statement blocks at the top of a file, following this priority:
 
-1. **优先级 1**：`type-only` 导入/导出（`import type` 或 `export type`）
-2. **优先级 2**：普通导入/导出
+1. **Priority 1**: `type-only` imports/exports (`import type` or `export type`)
+2. **Priority 2**: Regular imports/exports
 
-同一优先级内按照语句长度从短到长排序。这样做的好处是：
+Within the same priority level, statements are sorted by length from shortest to longest. Benefits include:
 
-- ✅ 类型导入与运行时导入清晰分离
-- ✅ 便于快速定位导入项（短的在前）
-- ✅ 符合现代 TypeScript 最佳实践
-- ✅ 自动处理 specifiers 排序
+- ✅ Clear separation between type and runtime imports
+- ✅ Easier to locate imports (shorter ones first)
+- ✅ Follows modern TypeScript best practices
+- ✅ Automatically handles specifiers sorting
 
-## 排序示例
+## Examples
 
-### 不好的做法
+### ❌ Incorrect
 
 ```js
 import { veryLongNamedImport, a } from 'module';
@@ -27,7 +27,7 @@ import { b } from 'lib';
 import type { Config } from './config';
 ```
 
-### 好的做法
+### ✅ Correct
 
 ```js
 import type { Config } from './config';
@@ -36,31 +36,31 @@ import { b } from 'lib';
 import { veryLongNamedImport, a } from 'module';
 ```
 
-### Specifier 排序
+### Specifiers Sorting
 
-大括号内的 specifiers 也会自动按长度排序：
+Specifiers inside braces are also automatically sorted by length:
 
 ```js
-// 排序前
+// Before
 import { veryLongSpecifierName, b, abc } from 'pkg';
 
-// 排序后
+// After
 import { b, abc, veryLongSpecifierName } from 'pkg';
 ```
 
-## 选项
+## Options
 
 ```ts
 type Options = {
-  groupType?: boolean;      // 是否将 type-only 导入分组到最前面（默认 true）
-  ignoreNames?: string[];   // 忽略的模块名称列表
-  maxLines?: number;        // 导入块最大行数限制（默认 50）
+  groupType?: boolean;      // Group type-only imports at front (default: true)
+  ignoreNames?: string[];   // Module names to ignore from sorting
+  maxLines?: number;        // Max lines in import block (default: 50)
 };
 ```
 
-### `groupType` (默认: `true`)
+### `groupType` (default: `true`)
 
-控制是否将 `type-only` 导入单独分组到最前面。
+Controls whether `type-only` imports are grouped at the front.
 
 ```js
 /* groupType: true */
@@ -72,23 +72,23 @@ import { a } from 'lib';
 import type { T } from 'types';
 ```
 
-### `ignoreNames` (默认: `[]`)
+### `ignoreNames` (default: `[]`)
 
-指定一个模块名称列表，这些模块的导入将保持原有顺序，不参与自动排序。
+Specifies module names whose imports should keep their original order and not be sorted.
 
 ```js
 /* ignoreNames: ['react', '@/utils'] */
-import { VeryLongComponentName } from 'react';   // 保持不变
-import { z } from 'zod';                        // 被排序
-import { a } from 'lib';                        // 被排序
-import { LongUtilName } from '@/utils';         // 保持不变
+import { VeryLongComponentName } from 'react';   // Unchanged
+import { z } from 'zod';                        // Sorted
+import { a } from 'lib';                        // Sorted
+import { LongUtilName } from '@/utils';         // Unchanged
 ```
 
-### `maxLines` (默认: `50`)
+### `maxLines` (default: `50`)
 
-指定导入块的最大行数限制。当导入块超过此行数时，规则将不自动排序。
+Sets the maximum number of lines for an import block. Blocks exceeding this limit won't be auto-sorted.
 
-## 配置示例
+## Configuration Examples
 
 ### ESLint Flat Config
 
@@ -111,66 +111,66 @@ export default [
 ];
 ```
 
-## 何时使用此规则
+## When To Use This Rule
 
-**应该启用** 如果你想要：
+**Enable this rule if you want to:**
 
-- 自动组织导入语句
-- 将 type-only 导入与运行时导入分离
-- 快速查找导入项
+- Automatically organize import statements
+- Separate type-only imports from runtime imports
+- Quickly locate imports
 
-**应该禁用** 如果：
+**Disable this rule if:**
 
-- 团队已有其他导入排序工具
-- 需要自定义排序规则
+- Your team uses other import sorting tools
+- You need custom sorting logic
 
-## 与其他规则的配合
+## Related Rules
 
-此规则可以与以下规则协作：
+This rule works well with:
 
-- [`import/order`](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md) - 按路径分类排序
-- [`simple-import-sort`](https://github.com/lydell/eslint-plugin-simple-import-sort) - 简化导入排序
-- [`@typescript-eslint`](https://typescript-eslint.io/) - TypeScript 相关检查
+- [`import/order`](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md) - Sort by import path
+- [`simple-import-sort`](https://github.com/lydell/eslint-plugin-simple-import-sort) - Simplified import sorting
+- [`@typescript-eslint`](https://typescript-eslint.io/) - TypeScript related checks
 
-## 自动修复
+## Fixable
 
-此规则支持 ESLint 的自动修复：
+This rule is fixable with ESLint's `--fix` option:
 
 ```bash
 eslint --fix src/
 ```
 
-## 注意事项
+## Important Notes
 
-⚠️ **重要提示**：
+⚠️ **Key Points**:
 
-1. 此规则只处理文件顶部的连续导入/导出块
-2. 一旦遇到其他代码语句，导入块被视为结束
-3. 注释和空行会被保留
-4. 缩进格式会被保持
-5. 超出 `maxLines` 限制的导入块不会被修改
+1. This rule only processes continuous import/export blocks at the top of files
+2. The block ends when any other statement is encountered
+3. Comments and blank lines are preserved
+4. Indentation format is maintained
+5. Import blocks exceeding `maxLines` won't be modified
 
 ```js
-// 这部分会被处理
+// This part will be processed
 import { a } from 'lib';
 import { b } from 'lib2';
 
-// 这里有其他代码
+// Other code here
 const x = 1;
 
-// 这部分导入不会被处理
+// This import won't be processed
 import { c } from 'lib3';
 ```
 
-## 性能
+## Performance
 
-此规则的性能影响极小：
+Minimal performance impact:
 
-- 只分析文件顶部的导入块
-- 使用高效的字符串匹配
-- 缓存计算结果
+- Only analyzes import blocks at file top
+- Uses efficient string matching
+- Caches computation results
 
-## 相关资源
+## Further Reading
 
-- [ESLint 规则入门](https://eslint.org/docs/rules/)
+- [ESLint Rules Documentation](https://eslint.org/docs/rules/)
 - [TypeScript import type](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-exports)
