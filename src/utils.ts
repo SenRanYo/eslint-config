@@ -153,7 +153,6 @@ export function isInGitHooksOrLintStaged(): boolean {
  */
 const hasDocs = [
   "import-length-order",
-  // "no-console-in-lib",
 ] as const;
 
 /**

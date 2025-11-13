@@ -5,7 +5,7 @@ import { glob } from "tinyglobby";
 import { execa } from "execa";
 
 import { join, resolve } from "node:path";
-import { afterAll, beforeAll, it } from "vitest";
+import { it, afterAll, beforeAll } from "vitest";
 
 const isWindows = process.platform === "win32";
 const timeout = isWindows ? 300_000 : 30_000;

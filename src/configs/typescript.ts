@@ -1,8 +1,8 @@
-import type { OptionsComponentExts, OptionsFiles, OptionsOverrides, OptionsProjectType, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from "../types";
+import type { OptionsFiles, OptionsOverrides, OptionsProjectType, TypedFlatConfigItem, OptionsComponentExts, OptionsTypeScriptWithTypes, OptionsTypeScriptParserOptions } from "../types";
 
 import process from "node:process";
-import { interopDefault, renameRules } from "../utils";
-import { GLOB_ASTRO_TS, GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from "../globs";
+import { renameRules, interopDefault } from "../utils";
+import { GLOB_TS, GLOB_TSX, GLOB_ASTRO_TS, GLOB_MARKDOWN } from "../globs";
 
 /**
  * TypeScript 栈的核心配置：自动挂载解析器、根据 `tsconfigPath` 区分类型感知/非感知文件，并提供 `type`、`componentExts` 等拓展选项。

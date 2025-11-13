@@ -1,8 +1,8 @@
-import type { OptionsFiles, OptionsOverrides, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from "../types";
+import type { OptionsFiles, OptionsOverrides, TypedFlatConfigItem, OptionsTypeScriptWithTypes, OptionsTypeScriptParserOptions } from "../types";
 
 import { isPackageExists } from "local-pkg";
 import { ensurePackages, interopDefault } from "../utils";
-import { GLOB_ASTRO_TS, GLOB_MARKDOWN, GLOB_SRC, GLOB_TS, GLOB_TSX } from "../globs";
+import { GLOB_TS, GLOB_SRC, GLOB_TSX, GLOB_ASTRO_TS, GLOB_MARKDOWN } from "../globs";
 
 // react-refresh 相关运行时检测，用于控制允许的导出
 const ReactRefreshAllowConstantExportPackages = ["vite"];

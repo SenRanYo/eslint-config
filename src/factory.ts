@@ -3,38 +3,38 @@ import type { RuleOptions } from "./types/typegen";
 import type { Awaitable, ConfigNames, OptionsConfig, TypedFlatConfigItem } from "./types";
 
 import { regexp } from "./configs/regexp";
-import { isPackageExists } from "local-pkg";
 import { formatters } from "./configs/formatters";
-import { interopDefault, isInEditorEnv } from "./utils";
+import { isPackageExists } from "local-pkg";
 import { FlatConfigComposer } from "eslint-flat-config-utils";
+import { isInEditorEnv, interopDefault } from "./utils";
 import {
-  comments,
-  disables,
-  ignores,
-  imports,
-  javascript,
-  jsdoc,
-  jsonc,
   jsx,
-  markdown,
-  nextjs,
+  vue,
   node,
-  perfectionist,
   pnpm,
-  react,
-  solid,
-  sortImports,
-  sortPackageJson,
-  sortTsconfig,
-  stylistic,
-  svelte,
   test,
   toml,
-  typescript,
-  unicorn,
-  unocss,
-  vue,
   yaml,
+  jsdoc,
+  jsonc,
+  react,
+  solid,
+  nextjs,
+  svelte,
+  unocss,
+  ignores,
+  imports,
+  unicorn,
+  comments,
+  disables,
+  markdown,
+  stylistic,
+  javascript,
+  typescript,
+  sortImports,
+  sortTsconfig,
+  perfectionist,
+  sortPackageJson,
 } from "./configs";
 
 const flatConfigProps = ["name", "languageOptions", "linterOptions", "processor", "plugins", "rules", "settings"] satisfies (keyof TypedFlatConfigItem)[];

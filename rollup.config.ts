@@ -1,6 +1,6 @@
 import dts from "rollup-plugin-dts";
 import typescript from "@rollup/plugin-typescript";
-import { builtinModules, createRequire } from "node:module";
+import { createRequire, builtinModules } from "node:module";
 
 const require = createRequire(import.meta.url);
 const pkg = require("./package.json") as {

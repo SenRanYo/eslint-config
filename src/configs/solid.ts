@@ -1,7 +1,7 @@
-import type { OptionsFiles, OptionsHasTypeScript, OptionsOverrides, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from "../types";
+import type { OptionsFiles, OptionsOverrides, TypedFlatConfigItem, OptionsHasTypeScript, OptionsTypeScriptWithTypes } from "../types";
 import { GLOB_JSX, GLOB_TSX } from "../globs";
 
-import { ensurePackages, interopDefault, toArray } from "../utils";
+import { toArray, ensurePackages, interopDefault } from "../utils";
 
 /**
  * Solid 应用的推荐规则集，若提供 `tsconfigPath` 则自动开启类型感知模式，并根据 `typescript` 选项包容纯 JS 项目。

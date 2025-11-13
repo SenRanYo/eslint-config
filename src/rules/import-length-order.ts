@@ -365,11 +365,10 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
           const next = sortableNodes[index + 1];
           const nodeText = sourceCode.getText(node);
           const endPos = node.range[1];
-          // 获取该节点与下一个节点之间的空白/注释（trailing）
-          // 对于最后一个节点，trailing 延伸到程序末尾或下一条非导入语句
-          const trailingPos = next ? next.range[0] : programNode.range[1];
-          // 安全地获取 trailing，确保不超出文本范围
-          const trailing = sourceCode.text.slice(endPos, Math.min(trailingPos, sourceCode.text.length));
+          // 仅获取到下一个导入节点之间的间隔内容（包括换行和注释）
+          // 对于最后一个节点，trailing 应该是空的（因为后续可能是其他代码）
+          const trailingPos = next ? next.range[0] : node.range[1];
+          const trailing = next ? sourceCode.text.slice(endPos, trailingPos) : "";
 
           // 检查是否应该忽略此导入（用户配置了忽略列表）
           const moduleName = getModuleName(node);
@@ -419,7 +418,6 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
 
         // 找到第一个不匹配的位置用于报错
         const firstMismatchIndex = items.findIndex((item, idx) => item.originalIndex !== sorted[idx].originalIndex);
-        const eol = sourceCode.text.includes("\r\n") ? "\r\n" : "\n";
         const replaceStart = sortableNodes[0].range[0];
         const replaceEnd = sortableNodes[sortableNodes.length - 1].range[1];
 
@@ -427,17 +425,11 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
           messageId: "shouldSort",
           node: sortableNodes[firstMismatchIndex],
           fix(fixer) {
-            // 重新组织排序后的导入块，保留原有空白和注释
+            // 重新组织排序后的导入块
+            // 每项包含 nodeText + 其后的 trailing（包括到下一项的间隔）
             const rewritten = sorted
-              .map((item, idx) => {
-                if (idx === sorted.length - 1) {
-                  // 最后一项保留其后续内容
-                  return item.nodeText + item.trailing;
-                }
-                // 其他项确保末尾有换行符
-                return /\s$/.test(item.trailing)
-                  ? item.nodeText + item.trailing
-                  : item.nodeText + item.trailing + eol;
+              .map((item) => {
+                return item.nodeText + item.trailing;
               })
               .join("");
             return fixer.replaceTextRange([replaceStart, replaceEnd], rewritten);

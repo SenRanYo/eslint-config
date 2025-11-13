@@ -1,4 +1,4 @@
-import type { OptionsOverrides, StylisticConfig, TypedFlatConfigItem } from "../types";
+import type { StylisticConfig, OptionsOverrides, TypedFlatConfigItem } from "../types";
 import { interopDefault } from "../utils";
 
 export const StylisticConfigDefaults: StylisticConfig = {
