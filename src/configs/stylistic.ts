@@ -1,3 +1,8 @@
+/**
+ * Stylistic 风格配置模块
+ * 配置 ESLint Stylistic 插件的代码风格和格式化规则
+ */
+
 import type { StylisticConfig, OptionsOverrides, TypedFlatConfigItem } from "../types";
 import { interopDefault } from "../utils";
 

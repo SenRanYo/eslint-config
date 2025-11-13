@@ -1,3 +1,8 @@
+/**
+ * 禁用规则配置模块
+ * 在特定环境下禁用特定规则的配置
+ */
+
 import type { TypedFlatConfigItem } from "../types";
 import { GLOB_SRC, GLOB_SRC_EXT } from "../globs";
 

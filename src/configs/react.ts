@@ -1,3 +1,8 @@
+/**
+ * React 配置模块
+ * 为 React 项目和 Hooks 配置 ESLint 规则
+ */
+
 import type { OptionsFiles, OptionsOverrides, TypedFlatConfigItem, OptionsTypeScriptWithTypes, OptionsTypeScriptParserOptions } from "../types";
 
 import { isPackageExists } from "local-pkg";

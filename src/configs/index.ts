@@ -1,3 +1,8 @@
+/**
+ * ESLint 配置导出模块
+ * 所有 ESLint 配置模块的中央导出点
+ */
+
 export * from "./jsx";
 export * from "./vue";
 export * from "./node";

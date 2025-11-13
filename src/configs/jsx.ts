@@ -1,3 +1,8 @@
+/**
+ * JSX 配置模块
+ * 为 JSX/React 文件配置 ESLint 规则，支持可选的无障碍（a11y）检查
+ */
+
 import type { OptionsJSX, TypedFlatConfigItem } from "../types";
 import { GLOB_JSX, GLOB_TSX } from "../globs";
 import { ensurePackages, interopDefault } from "../utils";

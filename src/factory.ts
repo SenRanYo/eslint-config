@@ -1,3 +1,9 @@
+/**
+ * 配置工厂模块
+ * 负责组装和管理不同的 ESLint 配置
+ * 提供创建 ESLint 配置的主要工厂函数
+ */
+
 import type { Linter } from "eslint";
 import type { RuleOptions } from "./types/typegen";
 import type { Awaitable, ConfigNames, OptionsConfig, TypedFlatConfigItem } from "./types";

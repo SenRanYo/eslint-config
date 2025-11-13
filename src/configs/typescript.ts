@@ -1,3 +1,8 @@
+/**
+ * TypeScript 配置模块
+ * 为 TypeScript 文件和功能配置 ESLint 规则
+ */
+
 import type { OptionsFiles, OptionsOverrides, OptionsProjectType, TypedFlatConfigItem, OptionsComponentExts, OptionsTypeScriptWithTypes, OptionsTypeScriptParserOptions } from "../types";
 
 import process from "node:process";

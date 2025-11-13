@@ -1,3 +1,8 @@
+/**
+ * Node.js 配置模块
+ * 为 Node.js 环境配置 ESLint 规则
+ */
+
 import type { TypedFlatConfigItem } from "../types";
 
 import { pluginNode } from "../plugins";

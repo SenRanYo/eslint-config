@@ -1,3 +1,8 @@
+/**
+ * TOML 配置模块
+ * 为 TOML 文件配置 ESLint 规则
+ */
+
 import type { OptionsFiles, OptionsOverrides, OptionsStylistic, TypedFlatConfigItem } from "../types";
 
 import { GLOB_TOML } from "../globs";

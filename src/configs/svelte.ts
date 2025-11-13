@@ -1,3 +1,8 @@
+/**
+ * Svelte 配置模块
+ * 为 Svelte 组件文件配置 ESLint 规则
+ */
+
 import type { OptionsFiles, OptionsOverrides, OptionsStylistic, TypedFlatConfigItem, OptionsHasTypeScript } from "../types";
 
 import { GLOB_SVELTE } from "../globs";

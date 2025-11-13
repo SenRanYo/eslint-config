@@ -1,3 +1,8 @@
+/**
+ * Unicorn 配置模块
+ * 配置 ESLint Unicorn 插件的主观最佳实践规则
+ */
+
 import type { OptionsUnicorn, TypedFlatConfigItem } from "../types";
 
 import { pluginUnicorn } from "../plugins";

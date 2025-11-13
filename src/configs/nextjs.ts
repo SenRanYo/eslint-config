@@ -1,3 +1,8 @@
+/**
+ * Next.js 配置模块
+ * 为 Next.js 项目配置 ESLint 规则
+ */
+
 import type { OptionsFiles, OptionsOverrides, TypedFlatConfigItem } from "../types";
 import { GLOB_SRC } from "../globs";
 import { ensurePackages, interopDefault } from "../utils";

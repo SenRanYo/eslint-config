@@ -52,32 +52,32 @@ function getModuleName(node: SortableNode): string {
 }
 
 /**
- * ESLint custom rule: Sort import statements by length
+ * ESLint 自定义规则：按长度排序导入语句
  *
- * Features:
- * - Automatically sort import/export statements at the top of files
- * - Priority: type-only imports > regular imports
- * - Same priority: sort by length from shortest to longest
- * - Support for specifier sorting within single imports
- * - Support for ignoring specific module names
- * - Support for limiting import block size
+ * 功能特性：
+ * - 自动排序文件顶部的导入/导出语句
+ * - 优先级：type-only 导入 > 常规导入
+ * - 相同优先级：按长度从短到长排序
+ * - 支持单个导入内的 specifier 排序
+ * - 支持忽略特定模块名称
+ * - 支持限制导入块大小
  *
- * Example:
- * ❌ Before:
+ * 示例：
+ * ❌ 修改前：
  *   import { veryLongName } from "module";
  *   import type { T } from "types";
  *   import { a } from "lib";
  *
- * ✅ After:
- *   import type { T } from "types";      // type-only first
- *   import { a } from "lib";              // shortest first
- *   import { veryLongName } from "module";  // longest
+ * ✅ 修改后：
+ *   import type { T } from "types";      // type-only 优先
+ *   import { a } from "lib";              // 最短优先
+ *   import { veryLongName } from "module";  // 最长
  */
 export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
   name: "import-length-order",
   meta: {
     docs: {
-      description: "Sort import/export statements by length, with type-only imports first and shorter statements prioritized.",
+      description: "按长度对导入/导出语句排序，type-only 导入优先，短语句优先",
     },
     fixable: "code",
     schema: [
@@ -86,18 +86,18 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
         properties: {
           groupType: {
             type: "boolean",
-            description: "Whether to group type-only imports at the front (default: true)",
+            description: "是否将 type-only 导入分组到最前面（默认：true）",
             default: true,
           },
           ignoreNames: {
             type: "array",
             items: { type: "string" },
-            description: "List of module names to ignore from sorting",
+            description: "要从排序中忽略的模块名称列表",
             default: [],
           },
           maxLines: {
             type: "number",
-            description: "Maximum lines in import block, won't auto-sort if exceeded (default: 50)",
+            description: "导入块的最大行数，超过则不自动排序（默认：50）",
             default: 50,
           },
         },
@@ -106,8 +106,8 @@ export const importLengthOrderRule = createEslintRule<Options, MessageIds>({
     ],
     type: "suggestion",
     messages: {
-      shouldSort: "Sort import/export statements by length. Type-only imports should be placed first, followed by shorter statements.",
-      shouldSortSpecifiers: "Sort specifiers inside import braces by length, from shortest to longest.",
+      shouldSort: "应该按长度排序导入/导出语句。type-only 导入应放在最前面，其次是较短的语句。",
+      shouldSortSpecifiers: "应该按长度排序导入括号内的 specifiers，从最短到最长。",
     },
   },
   defaultOptions: [{ groupType: true, ignoreNames: [], maxLines: 50 }],

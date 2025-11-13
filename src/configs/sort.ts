@@ -1,3 +1,8 @@
+/**
+ * 排序配置模块
+ * 配置各种代码元素的排序和顺序规则
+ */
+
 import type { TypedFlatConfigItem } from "../types";
 import { pluginSenran } from "../plugins";
 

@@ -1,3 +1,8 @@
+/**
+ * Solid.js 配置模块
+ * 为 Solid.js 反应式框架项目配置 ESLint 规则
+ */
+
 import type { OptionsFiles, OptionsOverrides, TypedFlatConfigItem, OptionsHasTypeScript, OptionsTypeScriptWithTypes } from "../types";
 import { GLOB_JSX, GLOB_TSX } from "../globs";
 

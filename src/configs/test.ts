@@ -1,3 +1,8 @@
+/**
+ * 测试文件配置模块
+ * 为测试文件配置 ESLint 规则
+ */
+
 import type { OptionsFiles, OptionsOverrides, OptionsIsInEditor, TypedFlatConfigItem } from "../types";
 
 import { GLOB_TESTS } from "../globs";

@@ -1,3 +1,8 @@
+/**
+ * 代码格式化器配置模块
+ * 配置 ESLint 与代码格式化工具（Prettier、dprint 等）的集成
+ */
+
 import type { VendoredPrettierOptions, VendoredPrettierRuleOptions } from "../vender/prettier-types";
 import type { StylisticConfig, OptionsFormatters, TypedFlatConfigItem } from "../types";
 import { isPackageExists } from "local-pkg";

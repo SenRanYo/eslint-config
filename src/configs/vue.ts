@@ -1,3 +1,8 @@
+/**
+ * Vue 配置模块
+ * 为 Vue.js 单文件组件配置 ESLint 规则
+ */
+
 import type { OptionsVue, OptionsFiles, OptionsOverrides, OptionsStylistic, TypedFlatConfigItem, OptionsHasTypeScript } from "../types";
 
 import { GLOB_VUE } from "../globs";

@@ -1,3 +1,8 @@
+/**
+ * TypeScript 类型定义模块
+ * 定义整个配置中使用的所有 TypeScript 类型和接口
+ */
+
 import type { Linter } from "eslint";
 import type { ParserOptions } from "@typescript-eslint/parser";
 import type { FlatGitignoreOptions } from "eslint-config-flat-gitignore";

@@ -1,11 +1,7 @@
-/**
- * 与不同语言/文件类型相关的 glob 常量，集中维护以便在规则里复用。
- * 命名遵循 `GLOB_类型` 的格式，方便检索与 IDE 自动补全。
- */
 export const GLOB_SRC_EXT = "?([cm])[jt]s?(x)";
 export const GLOB_SRC = "**/*.?([cm])[jt]s?(x)";
 
-// JS/TS 源文件匹配
+// JavaScript/TypeScript source files
 export const GLOB_JS = "**/*.?([cm])js";
 export const GLOB_JSX = "**/*.?([cm])jsx";
 export const GLOB_TS = "**/*.?([cm])ts";

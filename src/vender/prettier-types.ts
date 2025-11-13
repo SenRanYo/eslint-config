@@ -1,5 +1,7 @@
 /**
- * 从 Prettier 内部拷贝出的类型声明，用于避免在运行时直接依赖 Prettier 包。
+ * Prettier 类型定义模块
+ * 从 Prettier 内部拷贝的类型声明，用于避免在运行时直接依赖 Prettier 包
+ * 用于格式化配置和类型安全
  */
 
 export type VendoredPrettierOptions = Partial<VendoredPrettierOptionsRequired>;

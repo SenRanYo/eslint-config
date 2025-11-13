@@ -1,3 +1,8 @@
+/**
+ * ESLint 注释配置模块
+ * 配置处理 ESLint 指令注释（eslint-disable 等）的规则
+ */
+
 import type { TypedFlatConfigItem } from "../types";
 import { pluginComments } from "../plugins";
 

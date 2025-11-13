@@ -1,3 +1,8 @@
+/**
+ * PNPM 配置模块
+ * 为 PNPM 包管理器项目配置 ESLint 规则
+ */
+
 import type { TypedFlatConfigItem } from "../types";
 
 import { interopDefault } from "../utils";

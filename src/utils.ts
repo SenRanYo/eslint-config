@@ -1,3 +1,8 @@
+/**
+ * 工具函数模块
+ * 提供规则创建、包检测和配置相关的通用辅助函数
+ */
+
 import type { Rule } from "eslint";
 import type { RuleContext } from "@typescript-eslint/utils/ts-eslint";
 import type { Awaitable, TypedFlatConfigItem } from "./types";

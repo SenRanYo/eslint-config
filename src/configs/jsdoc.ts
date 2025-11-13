@@ -1,3 +1,8 @@
+/**
+ * JSDoc 配置模块
+ * 配置 JSDoc 注释文档标准的规则
+ */
+
 import type { OptionsStylistic, TypedFlatConfigItem } from "../types";
 import { interopDefault } from "../utils";
 

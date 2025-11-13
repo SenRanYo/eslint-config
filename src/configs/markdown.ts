@@ -1,3 +1,8 @@
+/**
+ * Markdown 配置模块
+ * 为 Markdown 文件及其代码块配置 ESLint 检查
+ */
+
 import type { OptionsFiles, OptionsOverrides, TypedFlatConfigItem, OptionsComponentExts } from "../types";
 
 import { parserPlain, interopDefault } from "../utils";

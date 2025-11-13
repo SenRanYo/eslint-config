@@ -1,3 +1,8 @@
+/**
+ * 正则表达式配置模块
+ * 配置正则表达式规则的 ESLint 检查
+ */
+
 import type { OptionsRegExp, OptionsOverrides, TypedFlatConfigItem } from "../types";
 
 import { configs } from "eslint-plugin-regexp";

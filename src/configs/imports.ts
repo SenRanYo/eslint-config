@@ -1,8 +1,13 @@
+/**
+ * 导入语句配置模块
+ * 配置导入/导出语句和导入顺序的规则
+ */
+
 import type { OptionsOverrides, OptionsStylistic, TypedFlatConfigItem } from "../types";
 import { pluginImportLite } from "../plugins";
 
 /**
- * 约束模块导入/导出的通用最佳实践，可按需关闭风格化规则。
+ * Best practices for constraining module imports/exports, with optional style rules.
  */
 export async function imports(options: OptionsOverrides & OptionsStylistic = {}): Promise<TypedFlatConfigItem[]> {
   const { overrides = {}, stylistic = true } = options;

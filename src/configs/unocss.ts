@@ -1,3 +1,8 @@
+/**
+ * UnoCSS 配置模块
+ * 为 UnoCSS 原子化 CSS 框架配置 ESLint 规则
+ */
+
 import type { OptionsUnoCSS, TypedFlatConfigItem } from "../types";
 
 import { ensurePackages, interopDefault } from "../utils";

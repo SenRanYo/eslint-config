@@ -1,4 +1,9 @@
 import type { TypedFlatConfigItem } from "../types";
+/**
+ * 忽略文件配置模块
+ * 定义 ESLint 应忽略的文件和目录
+ */
+
 import { GLOB_EXCLUDE } from "../globs";
 
 /**

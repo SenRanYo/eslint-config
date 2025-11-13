@@ -1,3 +1,8 @@
+/**
+ * JavaScript 配置模块
+ * 为 JavaScript 环境（包括浏览器、Node、ES2021 全局）配置核心规则
+ */
+
 import type { OptionsOverrides, OptionsIsInEditor, TypedFlatConfigItem } from "../types";
 import globals from "globals";
 import { pluginUnusedImports } from "../plugins";

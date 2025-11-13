@@ -1,3 +1,8 @@
+/**
+ * Perfectionist 配置模块
+ * 配置属性、导入和其他元素的排序规则
+ */
+
 import type { TypedFlatConfigItem } from "../types";
 
 import { pluginPerfectionist } from "../plugins";

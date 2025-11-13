@@ -1,3 +1,8 @@
+/**
+ * YAML 配置模块
+ * 为 YAML 文件配置 ESLint 规则
+ */
+
 import type { OptionsFiles, OptionsOverrides, OptionsStylistic, TypedFlatConfigItem } from "../types";
 import { GLOB_YAML } from "../globs";
 

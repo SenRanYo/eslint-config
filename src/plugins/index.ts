@@ -1,3 +1,8 @@
+/**
+ * ESLint 插件导出模块
+ * 所有 ESLint 插件（包括第三方和自定义插件）的中央导出点
+ */
+
 // eslint-disable-next-line ts/ban-ts-comment
 // @ts-nocheck
 
