@@ -244,6 +244,7 @@ export function sortImports(): TypedFlatConfigItem[] {
       },
       rules: {
         "senran/import-length-order": "error",
+        "senran/css-property-order": "error",
       },
     },
   ];
