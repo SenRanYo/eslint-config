@@ -5,15 +5,27 @@
   "packageManager": "pnpm@10.15.0",
   "description": "一个可复用、可扩展的 ESLint 配置预设，用于在团队或个人项目中保持一致的代码风格和质量。",
   "keywords": [
-    "eslint-config"
+    "eslint-config",
+    "senran"
   ],
   "exports": {
-    ".": "./dist/index.js"
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "/dist"
   ],
   "scripts": {
     "build": "nr gen && rollup --config rollup.config.ts --configPlugin typescript",
