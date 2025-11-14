@@ -3,8 +3,17 @@
   "type": "module",
   "version": "1.0.0",
   "private": false,
-  "packageManager": "pnpm@10.15.0",
   "description": "一个可复用、可扩展的 ESLint 配置预设，用于在团队或个人项目中保持一致的代码风格和质量。",
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://github.com/SenRanYo/eslint-config#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SenRanYo/eslint-config.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SenRanYo/eslint-config/issues"
+  },
   "keywords": [
     "eslint-config",
     "senran"
@@ -38,6 +47,11 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {},
   "devDependencies": {
     "@antfu/install-pkg": "^1.1.0",
     "@antfu/ni": "^27.0.1",
@@ -111,9 +125,5 @@
     "vue": "^3.5.24",
     "vue-eslint-parser": "^10.2.0",
     "yaml-eslint-parser": "^1.3.0"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
   }
 }
