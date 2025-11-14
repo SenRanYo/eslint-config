@@ -1,6 +1,6 @@
-import { describe, it } from "vitest";
 import { eslint } from "../../src";
-import { assertIntegrationResults, lintIntegrationFixture, loadIntegrationFixture } from "../helpers/integration-testing";
+import { it, describe } from "vitest";
+import { lintIntegrationFixture, loadIntegrationFixture, assertIntegrationResults } from "../helpers/integration-testing";
 
 describe("集成夹具：disables-scripts", () => {
   it("脚本目录放宽 no-console", async () => {

@@ -141,6 +141,7 @@ export async function lintIntegrationFixture(configs: TypedFlatConfigItem[], fix
 
   normalized.forEach((result) => {
     if (result.formattedOutput) {
+      // eslint-disable-next-line no-console
       console.info(`\n🛠️ 格式化输出 -> ${result.filePath}:\n${result.formattedOutput}\n`);
     }
   });

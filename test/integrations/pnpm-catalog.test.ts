@@ -1,6 +1,6 @@
-import { describe, it } from "vitest";
 import { eslint } from "../../src";
-import { assertIntegrationResults, lintIntegrationFixture, loadIntegrationFixture } from "../helpers/integration-testing";
+import { it, describe } from "vitest";
+import { lintIntegrationFixture, loadIntegrationFixture, assertIntegrationResults } from "../helpers/integration-testing";
 
 describe("集成夹具：pnpm-catalog", () => {
   it("强制使用 catalog 并检测未使用条目", async () => {
